@@ -431,12 +431,13 @@
                     </tr>`
                 ).join('');
 
-            } catch (err) {
-                console.error('Error loading data:', err);
-                // Show placeholder data if server is not running
-                document.getElementById('timetable-body').innerHTML =
-                    '<tr><td colspan="4">Server not running. Please start the server.</td></tr>';
-            }
+
+// NEW
+} catch (err) {
+    console.error('Error loading data:', err);
+    const tbody = document.getElementById('timetable-body');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4">Could not load data.</td></tr>';
+}
         }
 
         // Load data on page load
