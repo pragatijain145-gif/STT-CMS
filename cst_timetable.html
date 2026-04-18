@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CST Semester II Timetable</title>
+    <script src="theme.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .tt-container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* Header Styling */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .inst-name {
+            color: #000080;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .sub-header {
+            color: #d93025;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .dept-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .title {
+            color: #0000ff;
+            text-decoration: underline;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        /* Table Layout */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 5px;
+            font-size: 12px;
+            height: 55px;
+        }
+
+        .time-row {
+            background-color: #ffd966;
+            font-weight: bold;
+        }
+
+        .day-col {
+            background-color: #00ffff;
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .lunch {
+            background-color: #d9ead3;
+            font-weight: bold;
+            width: 40px;
+        }
+
+        .code {
+            font-weight: bold;
+            display: block;
+        }
+
+        .faculty {
+            font-size: 11px;
+        }
+
+        .room {
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* Course Code Legend Table */
+        .course-legend {
+            margin-top: 25px;
+            border: 2px solid #00ff00;
+        }
+
+        .course-legend th {
+            background-color: #00ff00;
+            color: #000;
+            padding: 5px;
+        }
+
+        .course-legend td {
+            height: auto;
+            text-align: left;
+            padding: 5px 10px;
+        }
+
+        /* ── Theme Toggle Button ─────────────────────── */
+        #theme-toggle-btn {
+            position: fixed; top: 12px; right: 16px; z-index: 999;
+            background: rgba(0,0,0,0.07); border: 1px solid rgba(0,0,0,0.18);
+            color: #1e3a8a; font-size: 0.82rem; font-weight: 600;
+            padding: 7px 16px; border-radius: 20px; cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        #theme-toggle-btn:hover { background: rgba(59,130,246,0.12); transform: translateY(-1px); }
+
+        html:not(.light-mode) body { background: #0d1b2a !important; color: #e2e8f0 !important; }
+        html:not(.light-mode) .tt-container { background: rgba(255,255,255,0.03); }
+        html:not(.light-mode) .inst-name { color: #93c5fd !important; }
+        html:not(.light-mode) .title { color: #60a5fa !important; }
+        html:not(.light-mode) th, html:not(.light-mode) td { border-color: rgba(255,255,255,0.2) !important; color: #e2e8f0 !important; }
+        html:not(.light-mode) .day-col { background: #1e3a5f !important; color: #93c5fd !important; }
+        html:not(.light-mode) .time-row { background: rgba(59,130,246,0.2) !important; }
+        html:not(.light-mode) .lunch { background: rgba(16,185,129,0.15) !important; }
+        html:not(.light-mode) table { background: transparent !important; }
+        html:not(.light-mode) #theme-toggle-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #93c5fd; }
+
+        html.light-mode body { background: linear-gradient(135deg, #bfdbfe, #dbeafe) !important; }
+    </style>
+</head>
+
+<body>
+
+    <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch theme">🌙 Dark</button>
+
+    <div class="tt-container">
+        <div class="header">
+            <p class="inst-name">MADHAV INSTITUTE OF TECHNOLOGY & SCIENCE, GWALIOR (M.P.), INDIA</p>
+            <p class="sub-header">Deemed University</p>
+            <p class="dept-name">Centre for Computer Science and Technology</p>
+            <p style="text-align: right; font-size: 12px;">(w.e.f. 06/01/2026) <span
+                    style="color:red;">[TENTATIVE]</span></p>
+            <h1 class="title">Master Time Table</h1>
+            <p><strong>B.Tech II Semester <span style="color:red;">(Computer Science and Technology)</span></strong></p>
+            <p><strong>(Session: Jan - June 2026)</strong></p>
+        </div>
+
+        <table>
+            <tr class="time-row">
+                <td class="day-col">DAY</td>
+                <td>09:00-10:00</td>
+                <td>10:00-11:00</td>
+                <td>11:00-12:00</td>
+                <td>12:00-01:00</td>
+                <td>01:00-02:00</td>
+                <td>02:00-03:00</td>
+                <td>03:00-04:00</td>
+                <td>04:00-05:00</td>
+                <td>05:00-06:00</td>
+            </tr>
+            <tr>
+                <td class="day-col">MON</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td rowspan="5" class="lunch">LUNCH</td>
+                <td colspan="2"><span class="code">34251206</span><span class="faculty">(SD+US+TM)</span><br><span
+                        class="room">M 302</span></td>
+                <td colspan="2"><span class="code">34251211</span><span class="faculty">(AS)</span><br><span
+                        class="room">M 301</span></td>
+            </tr>
+            <tr>
+                <td class="day-col">TUE</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span class="code">34251201</span><span class="faculty">(SD)</span><br><span class="room">M
+                        301</span></td>
+                <td><span class="code">34251204</span><span class="faculty">(KT)</span><br><span class="room">M
+                        301</span></td>
+                <td colspan="2"><span class="code">34251210</span><span class="faculty">(US + GS)</span><br><span
+                        class="room">M 302</span></td>
+            </tr>
+            <tr>
+                <td class="day-col">WED</td>
+                <td colspan="2"><span class="code">34251208 Batch A</span><span class="faculty">(KS+MK)</span><br><span
+                        class="room">M 006</span></td>
+                <td><span class="code">34251204</span><span class="faculty">(KT)</span><br><span class="room">110</span>
+                </td>
+                <td><span class="code">34251202</span><span class="faculty">(SA)</span><br><span class="room">110</span>
+                </td>
+                <td><span class="code">34251203</span><span class="faculty">(BT)</span><br><span class="room">M
+                        301</span></td>
+                <td><span class="code">34251205</span><span class="faculty">(KS)</span><br><span class="room">M
+                        301</span></td>
+                <td colspan="2"><span class="code">34251209</span><span class="faculty">(DT + SD)</span><br><span
+                        class="room">M 301</span></td>
+            </tr>
+            <tr>
+                <td class="day-col">THU</td>
+                <td></td>
+                <td><span class="code">34251202</span><span class="faculty">(SA)</span><br><span class="room">M
+                        301</span></td>
+                <td colspan="2"><span class="code">34251207</span><span class="faculty">(SA+SD+TM)</span><br><span
+                        class="room">M 302</span></td>
+                <td><span class="code">34251205</span><span class="faculty">(KS)</span><br><span class="room">110</span>
+                </td>
+                <td><span class="code">34251203</span><span class="faculty">(BT)</span><br><span class="room">110</span>
+                </td>
+                <td><span class="code">34251201</span><span class="faculty">(SD)</span><br><span class="room">110</span>
+                </td>
+                <td style="font-weight:bold;">NEC</td>
+            </tr>
+            <tr>
+                <td class="day-col">FRI</td>
+                <td colspan="2"><span class="code">34251208 Batch B</span><span class="faculty">(KS+MK)</span><br><span
+                        class="room">M 006</span></td>
+                <td><span class="code">34251202</span><span class="faculty">(SA)</span><br><span class="room">110</span>
+                </td>
+                <td><span class="code">34251201</span><span class="faculty">(SD)</span><br><span class="room">110</span>
+                </td>
+                <td><span class="code">34251203</span><span class="faculty">(BT)</span><br><span class="room">M
+                        301</span></td>
+                <td><span class="code">34251204</span><span class="faculty">(KT)</span><br><span class="room">M
+                        301</span></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="course-legend">
+            <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+            </tr>
+            <tr>
+                <td>34251201</td>
+                <td>Data Structures</td>
+                <td>34251206</td>
+                <td>Data Structures Lab</td>
+            </tr>
+            <tr>
+                <td>34251202</td>
+                <td>Object Oriented Programming</td>
+                <td>34251207</td>
+                <td>Object Oriented Programming Lab</td>
+            </tr>
+            <tr>
+                <td>34251203</td>
+                <td>Discrete Structures</td>
+                <td>34251208</td>
+                <td>Electrical & Electronics Engineering Lab</td>
+            </tr>
+            <tr>
+                <td>34251204</td>
+                <td>Probability and Random Processes</td>
+                <td>34251209</td>
+                <td>Semester Proficiency</td>
+            </tr>
+            <tr>
+                <td>34251205</td>
+                <td>Basic Electrical & Electronics Engineering</td>
+                <td>34251210</td>
+                <td>Micro Project-II</td>
+            </tr>
+            <tr>
+                <td>34251211</td>
+                <td>Sustainability & Environmental Science</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

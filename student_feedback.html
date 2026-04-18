@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback | Smart Campus</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="theme.js"></script>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark-bg: #0d1b2a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --sidebar-bg: rgba(255, 255, 255, 0.04);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        html.light-mode {
+            --dark-bg: #dbeafe;
+            --card-bg: rgba(255, 255, 255, 0.82);
+            --sidebar-bg: rgba(255, 255, 255, 0.6);
+            --text-main: #1e293b;
+            --text-dim: #475569;
+            --accent: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ── Sidebar ── */
+        nav {
+            width: 250px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            position: fixed;
+        }
+
+        nav h2 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px 18px;
+            border-radius: 10px;
+            color: var(--text-dim);
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a i {
+            margin-right: 12px;
+            font-size: 1.1em;
+            width: 20px;
+            text-align: center;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        /* ── Main content ── */
+        main {
+            margin-left: 250px;
+            padding: 40px;
+            width: calc(100% - 250px);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+        }
+
+        .page-header p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateX(-3px);
+        }
+
+        /* ── Form card ── */
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 36px;
+            max-width: 680px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-card h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 14px;
+            margin-bottom: 26px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s, background 0.2s;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: #4b6282;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.07);
+        }
+
+        select option {
+            background: #1e293b;
+            color: var(--text-main);
+        }
+
+        textarea {
+            height: 130px;
+            resize: vertical;
+        }
+
+        /* Star rating */
+        .star-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .star-group input {
+            display: none;
+        }
+
+        .star-group label {
+            font-size: 1.8rem;
+            color: #4b6282;
+            cursor: pointer;
+            transition: color 0.15s, transform 0.15s;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .star-group input:checked~label,
+        .star-group label:hover,
+        .star-group label:hover~label {
+            color: #f59e0b;
+            transform: scale(1.15);
+        }
+
+        .star-group {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .star-group label:hover,
+        .star-group label:hover~label,
+        .star-group input:checked~label {
+            color: #f59e0b;
+        }
+
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s, transform 0.15s;
+            margin-top: 6px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Success message */
+        .success-msg {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* ── Theme Toggle Button ─────────────────────── */
+        #theme-toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            margin-top: 16px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        #theme-toggle-btn:hover {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+        }
+        html.light-mode body { transition: background-color 0.35s; }
+        html.light-mode nav { border-right-color: rgba(59,130,246,0.2); }
+        html.light-mode nav h2 { color: #1e3a8a; }
+        html.light-mode .form-card { border-color: rgba(59,130,246,0.2); }
+        html.light-mode input[type="text"],
+        html.light-mode select,
+        html.light-mode textarea {
+            background: rgba(255,255,255,0.85);
+            border-color: rgba(59,130,246,0.3);
+            color: #1e293b;
+        }
+        html.light-mode select option { background: #f0f9ff; color: #1e293b; }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Sidebar ── -->
+    <nav>
+        <h2><i class="fas fa-user-graduate"></i> Student Portal</h2>
+        <ul>
+            <li><a href="student_home.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#" onclick="openTimetable()"><i class="fas fa-calendar-alt"></i> Timetable</a></li>
+            <li><a href="student_home.html#attendance"><i class="fas fa-chart-bar"></i> Attendance</a></li>
+            <li><a href="student_feedback.html" class="active"><i class="fas fa-comments"></i> Feedback</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+        <button id="theme-toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+    </nav>
+
+    <!-- ── Main Content ── -->
+    <main>
+        <a class="back-btn" href="student_home.html">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <div class="page-header">
+            <div>
+                <h1>📝 Student Feedback</h1>
+                <p>Share your thoughts with your faculty. Your feedback helps improve teaching quality.</p>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <h2><i class="fas fa-paper-plane"></i> Submit Your Feedback</h2>
+
+            <form id="feedbackForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="student_name" placeholder="Enter Full Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="roll">Roll Number</label>
+                    <input type="text" id="roll" name="roll_number" placeholder="e.g., BTCB2501001" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="teacher">Faculty / Subject</label>
+                    <select id="teacher" name="target_teacher" required>
+                        <option value="">— Select Faculty —</option>
+                        <option value="Dr. Kuldeep Swarnkar">Dr. Tejaswita Mishra </option>
+                        <option value="Dr. Shradha Dubey">Dr. Gulshan Soni </option>
+                        <option value="Dr. Suchitra Agrawal">Dr. Suchitra Agrawal</option>
+                    </select>
+                </div>
+
+                <!-- <div class="form-group">
+                    <label>Rating</label>
+                    <div class="star-group">
+                        <input type="radio" id="s5" name="rating" value="5"><label for="s5">★</label>
+                        <input type="radio" id="s4" name="rating" value="4"><label for="s4">★</label>
+                        <input type="radio" id="s3" name="rating" value="3"><label for="s3">★</label>
+                        <input type="radio" id="s2" name="rating" value="2"><label for="s2">★</label>
+                        <input type="radio" id="s1" name="rating" value="1"><label for="s1">★</label>
+                    </div>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="message">Feedback / Message</label>
+                    <textarea id="message" name="feedback_message" placeholder="Type your feedback here..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i>&nbsp; Send Feedback
+                </button>
+            </form>
+
+            <div class="success-msg" id="successMsg">
+                ✅ Your feedback has been submitted successfully. Thank you!
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Pre-fill name and roll from session if available
+        const studentName = sessionStorage.getItem('studentName');
+        const sClassQuery = sessionStorage.getItem('studentClass');
+        if (studentName) {
+            document.getElementById('name').value = studentName;
+        }
+
+        // Timetable redirect (mirrors student_home.html)
+        function openTimetable() {
+            if (sClassQuery === 'CSBS Sec B') window.location.href = 'csbsB_timetable.html';
+            else if (sClassQuery === 'CSBS Sec A') window.location.href = 'csbsA_timetable.html';
+            else if (sClassQuery === 'CST') window.location.href = 'cst_timetable.html';
+            else alert('Class not recognized.');
+        }
+
+        // Show success toast on submit (Formspree handles the actual POST)
+        document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+            // Optional: show inline success for demo (remove if using real Formspree redirect)
+            // e.preventDefault();
+            // document.getElementById('successMsg').style.display = 'block';
+            // this.reset();
+        });
+    </script>
+
+</body>
+
+</html>

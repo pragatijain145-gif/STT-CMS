@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Attendance</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html:not(.light-mode) body,
+        html:not(.light-mode) .page {
+            background: #0d1b2a !important;
+            animation: none !important;
+            color: #fff !important;
+        }
+        html:not(.light-mode) header { color: #93c5fd !important; text-shadow: none !important; }
+        html:not(.light-mode) .card {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #e2e8f0 !important;
+        }
+        html:not(.light-mode) .card h3 { color: #93c5fd !important; border-bottom-color: #3b82f6 !important; }
+        html:not(.light-mode) th { color: #7dd3fc !important; background: rgba(59,130,246,0.1) !important; }
+        html:not(.light-mode) td { border-bottom-color: rgba(255,255,255,0.08) !important; color: #e2e8f0 !important; }
+    </style>
+</head>
+
+<body>
+
+    <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch theme">☀️ Light</button>
+
+    <div class="page no-sidebar">
+
+        <header>
+            <div class="moving-text">Attendance Management</div>
+        </header>
+
+        <div class="container">
+
+            <div class="card">
+
+                <h3>Mark Attendance</h3>
+                <H3> CSBS Section:B</H3>
+
+                <div style="margin-bottom: 15px;">
+                    <button type="button" class="login-btn"
+                        style="padding: 8px 15px; margin-right: 10px; background-color: #ef4444; border: none; color: white; cursor: pointer;"
+                        onclick="markDefault('A')"> Mark All Absent</button>
+                    <button type="button" class="login-btn"
+                        style="padding: 8px 15px; background-color: #10b981; border: none; color: white; cursor: pointer;"
+                        onclick="markDefault('P')"> Mark All Present</button>
+                </div>
+
+                <form>
+                    <table>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                        </tr>
+
+                        <tr>
+                            <td>81</td>
+                            <td>MRITUNJAY DUBEY</td>
+                            <td><input type="radio" name="s1"></td>
+                            <td><input type="radio" name="s1"></td>
+                        </tr>
+
+                        <tr>
+                            <td>82</td>
+                            <td>MRITUNJAY MISHRA</td>
+                            <td><input type="radio" name="s2"></td>
+                            <td><input type="radio" name="s2"></td>
+                        </tr>
+                        <tr>
+                            <td>83</td>
+                            <td>NAMAN TRIPATHI</td>
+                            <td><input type="radio" name="s3"></td>
+                            <td><input type="radio" name="s3"></td>
+                        </tr>
+                        <tr>
+                            <td>84</td>
+                            <td>NAMAN RAHANGDALE</td>
+                            <td><input type="radio" name="s4"></td>
+                            <td><input type="radio" name="s4"></td>
+                        </tr>
+                        <tr>
+                            <td>85</td>
+                            <td>NEELAM PATEL</td>
+                            <td><input type="radio" name="s5"></td>
+                            <td><input type="radio" name="s5"></td>
+                        </tr>
+                        <tr>
+                            <td>86</td>
+                            <td>NIHARIKA</td>
+                            <td><input type="radio" name="s6"></td>
+                            <td><input type="radio" name="s6"></td>
+                        </tr>
+                        <tr>
+                            <td>87</td>
+                            <td>NISCHAL PRATAP RAJAWAT</td>
+                            <td><input type="radio" name="s7"></td>
+                            <td><input type="radio" name="s7"></td>
+                        </tr>
+                        <tr>
+                            <td>88</td>
+                            <td> NITIN MEENA</td>
+                            <td><input type="radio" name="s8"></td>
+                            <td><input type="radio" name="s8"></td>
+                        </tr>
+                        <tr>
+                            <td>89</td>
+                            <td>PARAS PRAJAPATI</td>
+                            <td><input type="radio" name="s9"></td>
+                            <td><input type="radio" name="s9"></td>
+                        </tr>
+                        <tr>
+                            <td>90</td>
+                            <td>PIYUSH BAGHEL</td>
+                            <td><input type="radio" name="s10"></td>
+                            <td><input type="radio" name="s10"></td>
+                        </tr>
+                        <tr>
+                            <td>91</td>
+                            <td>PRAGATI JAIN</td>
+                            <td><input type="radio" name="s11"></td>
+                            <td><input type="radio" name="s11"></td>
+                        </tr>
+                        <tr>
+                            <td>92</td>
+                            <td> PRANJALI MEHRA</td>
+                            <td><input type="radio" name="s12"></td>
+                            <td><input type="radio" name="s12"></td>
+                        </tr>
+                        <tr>
+                            <td>93</td>
+                            <td>PRANSHU GUPTA</td>
+                            <td><input type="radio" name="s13"></td>
+                            <td><input type="radio" name="s13"></td>
+                        </tr>
+                        <tr>
+                            <td>94</td>
+                            <td>PRATEEK SINGH CHAUHAN</td>
+                            <td><input type="radio" name="s14"></td>
+                            <td><input type="radio" name="s14"></td>
+                        </tr>
+                        <tr>
+                            <td>95</td>
+                            <td>PRERNA BHADOURIA</td>
+                            <td><input type="radio" name="s15"></td>
+                            <td><input type="radio" name="s15"></td>
+                        </tr>
+                        <tr>
+                            <td>96</td>
+                            <td>PRITHVI PATEL</td>
+                            <td><input type="radio" name="s16"></td>
+                            <td><input type="radio" name="s16"></td>
+                        </tr>
+                        <tr>
+                            <td>97</td>
+                            <td> PRIYANSH PATEL</td>
+                            <td><input type="radio" name="s17"></td>
+                            <td><input type="radio" name="s17"></td>
+                        </tr>
+                        <tr>
+                            <td>98</td>
+                            <td>RAGHVENDRA RAJPUT</td>
+                            <td><input type="radio" name="s18"></td>
+                            <td><input type="radio" name="s18"></td>
+                        </tr>
+                        <tr>
+                            <td>99</td>
+                            <td>RAJ SAHU</td>
+                            <td><input type="radio" name="s19"></td>
+                            <td><input type="radio" name="s19"></td>
+                        </tr>
+                        <tr>
+                            <td>100</td>
+                            <td>RAJKUMAR PATIDAR</td>
+                            <td><input type="radio" name="s20"></td>
+                            <td><input type="radio" name="s20"></td>
+                        </tr>
+                        <tr>
+                            <td>101</td>
+                            <td>RAJMANI SISODIYA</td>
+                            <td><input type="radio" name="s21"></td>
+                            <td><input type="radio" name="s21"></td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>RAM KRISHAN SINGH TOMAR
+                            </td>
+                            <td><input type="radio" name="s22"></td>
+                            <td><input type="radio" name="s22"></td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>RAMAN SAHU</td>
+                            <td><input type="radio" name="s23"></td>
+                            <td><input type="radio" name="s23"></td>
+                        </tr>
+                        <tr>
+                            <td>104</td>
+                            <td>RISHIKA CHOURASIYA</td>
+                            <td><input type="radio" name="s24"></td>
+                            <td><input type="radio" name="s24"></td>
+                        </tr>
+                        <tr>
+                            <td>105</td>
+                            <td>RISIKESH SINGH BHADOURIA
+                            </td>
+                            <td><input type="radio" name="s25"></td>
+                            <td><input type="radio" name="s25"></td>
+                        </tr>
+                        <tr>
+                            <td>106</td>
+                            <td>RITIK BAGHEL</td>
+                            <td><input type="radio" name="s26"></td>
+                            <td><input type="radio" name="s26"></td>
+                        </tr>
+                        <tr>
+                            <td>107</td>
+                            <td>ROHIT KUMAR</td>
+                            <td><input type="radio" name="s27"></td>
+                            <td><input type="radio" name="s27"></td>
+                        </tr>
+                        <tr>
+                            <td>108</td>
+                            <td>RONAK GUPTA</td>
+                            <td><input type="radio" name="s28"></td>
+                            <td><input type="radio" name="s28"></td>
+                        </tr>
+                        <tr>
+                            <td>109</td>
+                            <td>SAHAJ PHARKYA</td>
+                            <td><input type="radio" name="s29"></td>
+                            <td><input type="radio" name="s29"></td>
+                        </tr>
+                        <tr>
+                            <td>110</td>
+                            <td>SAHIL GHORSE</td>
+                            <td><input type="radio" name="s30"></td>
+                            <td><input type="radio" name="s30"></td>
+                        </tr>
+                        <tr>
+                            <td>111</td>
+                            <td>SANCHIT MANDRAI</td>
+                            <td><input type="radio" name="s31"></td>
+                            <td><input type="radio" name="s31"></td>
+                        </tr>
+                        <tr>
+                            <td>112</td>
+                            <td>SANDEEP AHIWAR</td>
+                            <td><input type="radio" name="s32"></td>
+                            <td><input type="radio" name="s32"></td>
+                        </tr>
+                        <tr>
+                            <td>113</td>
+                            <td>SARTHAK VASHISHTHA</td>
+                            <td><input type="radio" name="s33"></td>
+                            <td><input type="radio" name="s33"></td>
+                        </tr>
+                        <tr>
+                            <td>114</td>
+                            <td>SARVESH PATEL</td>
+                            <td><input type="radio" name="s34"></td>
+                            <td><input type="radio" name="s34"></td>
+                        </tr>
+                        <tr>
+                            <td>115</td>
+                            <td>SATAKSHI SHARMA</td>
+                            <td><input type="radio" name="s35"></td>
+                            <td><input type="radio" name="s35"></td>
+                        </tr>
+                        <tr>
+                            <td>116</td>
+                            <td>SATWIK SINGHAL</td>
+                            <td><input type="radio" name="s36"></td>
+                            <td><input type="radio" name="s36"></td>
+                        </tr>
+                        <tr>
+                            <td>117</td>
+                            <td>SATYAM SHARMA</td>
+                            <td><input type="radio" name="s37"></td>
+                            <td><input type="radio" name="s37"></td>
+                        </tr>
+                        <tr>
+                            <td>118</td>
+                            <td> SHITAL SANGULLE</td>
+                            <td><input type="radio" name="s38"></td>
+                            <td><input type="radio" name="s38"></td>
+                        </tr>
+                        <tr>
+                            <td>119</td>
+                            <td>SHIV BHAVSAR</td>
+                            <td><input type="radio" name="s39"></td>
+                            <td><input type="radio" name="s39"></td>
+                        </tr>
+                        <tr>
+                            <td>120</td>
+                            <td>SHIVAM PRASAD SAHU</td>
+                            <td><input type="radio" name="s40"></td>
+                            <td><input type="radio" name="s40"></td>
+                        </tr>
+                        <tr>
+                            <td>121</td>
+                            <td>SHIVANSH PATHAK</td>
+                            <td><input type="radio" name="s41"></td>
+                            <td><input type="radio" name="s41"></td>
+                        </tr>
+                        <tr>
+                            <td>122</td>
+                            <td>SHREYANSH VERMA</td>
+                            <td><input type="radio" name="s42"></td>
+                            <td><input type="radio" name="s42"></td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>SHYAM KUSHWAH</td>
+                            <td><input type="radio" name="s43"></td>
+                            <td><input type="radio" name="s43"></td>
+                        </tr>
+                        <tr>
+                            <td>124</td>
+                            <td>SIDDHANT GUPTA</td>
+                            <td><input type="radio" name="s44"></td>
+                            <td><input type="radio" name="s44"></td>
+                        </tr>
+                        <tr>
+                            <td>125</td>
+                            <td>SPARSH TAMRAKAR</td>
+                            <td><input type="radio" name="s45"></td>
+                            <td><input type="radio" name="s45"></td>
+                        </tr>
+                        <tr>
+                            <td>126</td>
+                            <td>SRASHTI GUPTA</td>
+                            <td><input type="radio" name="s46"></td>
+                            <td><input type="radio" name="s46"></td>
+                        </tr>
+                        <tr>
+                            <td>127</td>
+                            <td>SUJAL AGRAWAL</td>
+                            <td><input type="radio" name="s47"></td>
+                            <td><input type="radio" name="s47"></td>
+                        </tr>
+                        <tr>
+                            <td>128</td>
+                            <td>SUMIT KUMAR PATEL</td>
+                            <td><input type="radio" name="s48"></td>
+                            <td><input type="radio" name="s48"></td>
+                        </tr>
+                        <tr>
+                            <td>129</td>
+                            <td>SUMIT SINGH MAWAI</td>
+                            <td><input type="radio" name="s49"></td>
+                            <td><input type="radio" name="s49"></td>
+                        </tr>
+                        <tr>
+                            <td>130</td>
+                            <td>SUMIT SURYAWANSHI</td>
+                            <td><input type="radio" name="s50"></td>
+                            <td><input type="radio" name="s50"></td>
+                        </tr>
+                        <tr>
+                            <td>131</td>
+                            <td>SUMIT YADAV</td>
+                            <td><input type="radio" name="s51"></td>
+                            <td><input type="radio" name="s51"></td>
+                        </tr>
+                        <tr>
+                            <td>132</td>
+                            <td>SWASTIKA CHAUBEY </td>
+                            <td><input type="radio" name="s52"></td>
+                            <td><input type="radio" name="s52"></td>
+                        </tr>
+                        <tr>
+                            <td>133</td>
+                            <td>TANISHKA SINGH SENGAR</td>
+                            <td><input type="radio" name="s53"></td>
+                            <td><input type="radio" name="s53"></td>
+                        </tr>
+                        <tr>
+                            <td>134</td>
+                            <td>TANU SAMADHIYA</td>
+                            <td><input type="radio" name="s54"></td>
+                            <td><input type="radio" name="s54"></td>
+                        </tr>
+                        <tr>
+                            <td>135</td>
+                            <td>TANUJA RAWAT</td>
+                            <td><input type="radio" name="s55"></td>
+                            <td><input type="radio" name="s55"></td>
+                        </tr>
+                        <tr>
+                            <td>136</td>
+                            <td>TARUN DAHIYA</td>
+                            <td><input type="radio" name="s56"></td>
+                            <td><input type="radio" name="s56"></td>
+                        </tr>
+                        <tr>
+                            <td>137</td>
+                            <td>TUSHAR BIRLA</td>
+                            <td><input type="radio" name="s57"></td>
+                            <td><input type="radio" name="s57"></td>
+                        </tr>
+                        <tr>
+                            <td>138</td>
+                            <td>UTSAV GUPTA</td>
+                            <td><input type="radio" name="s58"></td>
+                            <td><input type="radio" name="s58"></td>
+                        </tr>
+                        <tr>
+                            <td>139</td>
+                            <td>VAISHALI VERMA</td>
+                            <td><input type="radio" name="s59"></td>
+                            <td><input type="radio" name="s59"></td>
+                        </tr>
+                        <tr>
+                            <td>140</td>
+                            <td>VAISHNAVI SHARMA</td>
+                            <td><input type="radio" name="s60"></td>
+                            <td><input type="radio" name="s60"></td>
+                        </tr>
+                        <tr>
+                            <td>141</td>
+                            <td>VANSH PATEL</td>
+                            <td><input type="radio" name="s61"></td>
+                            <td><input type="radio" name="s61"></td>
+                        </tr>
+                        <tr>
+                            <td>142</td>
+                            <td>VANSH PATIDAR</td>
+                            <td><input type="radio" name="s62"></td>
+                            <td><input type="radio" name="s62"></td>
+                        </tr>
+                        <tr>
+                            <td>143</td>
+                            <td>VINAMRA TAMRAKAR</td>
+                            <td><input type="radio" name="s63"></td>
+                            <td><input type="radio" name="s63"></td>
+                        </tr>
+                        <tr>
+                            <td>144</td>
+                            <td>VINAY GAUR</td>
+                            <td><input type="radio" name="s64"></td>
+                            <td><input type="radio" name="s64"></td>
+                        </tr>
+                        <tr>
+                            <td>145</td>
+                            <td>VIPUL JAIN</td>
+                            <td><input type="radio" name="s65"></td>
+                            <td><input type="radio" name="s65"></td>
+                        </tr>
+                        <tr>
+                            <td>146</td>
+                            <td>VIRENDRA SHARMA</td>
+                            <td><input type="radio" name="s66"></td>
+                            <td><input type="radio" name="s66"></td>
+                        </tr>
+                        <tr>
+                            <td>147</td>
+                            <td>VISHESH GURJAR</td>
+                            <td><input type="radio" name="s67"></td>
+                            <td><input type="radio" name="s67"></td>
+                        </tr>
+                        <tr>
+                            <td>148</td>
+                            <td>VISHWABODH SINGH</td>
+                            <td><input type="radio" name="s68"></td>
+                            <td><input type="radio" name="s68"></td>
+                        </tr>
+                        <tr>
+                            <td>149</td>
+                            <td>VIVEK PATIDAR</td>
+                            <td><input type="radio" name="s69"></td>
+                            <td><input type="radio" name="s69"></td>
+                        </tr>
+                        <tr>
+                            <td>150</td>
+                            <td>YASH GUPTA</td>
+                            <td><input type="radio" name="s70"></td>
+                            <td><input type="radio" name="s70"></td>
+                        </tr>
+                        <tr>
+                            <td>151</td>
+                            <td>YASH VARDHAN SINGH</td>
+                            <td><input type="radio" name="s71"></td>
+                            <td><input type="radio" name="s71"></td>
+                        </tr>
+                        <tr>
+                            <td>152</td>
+                            <td>YUVRAJ JAIN</td>
+                            <td><input type="radio" name="s72"></td>
+                            <td><input type="radio" name="s72"></td>
+                        </tr>
+                        <tr>
+                            <td>153</td>
+                            <td>YUVRAJ SINGH RAJPOOT</td>
+                            <td><input type="radio" name="s73"></td>
+                            <td><input type="radio" name="s73"></td>
+                        </tr>
+                        <tr>
+                            <td>154</td>
+                            <td>NIKITA TRIPATHI</td>
+                            <td><input type="radio" name="s74"></td>
+                            <td><input type="radio" name="s74"></td>
+                        </tr>
+                        <tr>
+                            <td>155</td>
+                            <td>ADITYA AHAMANA</td>
+                            <td><input type="radio" name="s75"></td>
+                            <td><input type="radio" name="s75"></td>
+                        </tr>
+                        <tr>
+                            <td>156</td>
+                            <td>DEV SRAJAN PUROHIT</td>
+                            <td><input type="radio" name="s76"></td>
+                            <td><input type="radio" name="s76"></td>
+                        </tr>
+                        <tr>
+                            <td>157</td>
+                            <td>PRAMOD KUSHWAH</td>
+                            <td><input type="radio" name="s77"></td>
+                            <td><input type="radio" name="s77"></td>
+                        </tr>
+                        <tr>
+                            <td>158</td>
+                            <td>SAHIB KHAN</td>
+                            <td><input type="radio" name="s78"></td>
+                            <td><input type="radio" name="s78"></td>
+                        </tr>
+
+
+                    </table>
+
+                    <button type="submit" class="login-btn">Submit Attendance</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function markDefault(status) {
+            const rows = document.querySelectorAll('table tr');
+            rows.forEach(row => {
+                const radios = row.querySelectorAll('input[type="radio"]');
+                if (radios.length >= 2) {
+                    if (status === 'A') {
+                        radios[1].checked = true; // Absent is 2nd radio
+                    } else if (status === 'P') {
+                        radios[0].checked = true; // Present is 1st radio
+                    }
+                }
+            });
+        }
+        // ⬇️  PASTE YOUR GOOGLE APPS SCRIPT URL BELOW (between the "")
+        // ============================================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1WBSSRezcQCKqdis1dN0DD26YNkVzumk9xioNCPAffNkBHJgN-K6CZvq8cEZ6KmtU/exec";
+        // ============================================================
+
+        function markDefault(status) {
+            const rows = document.querySelectorAll('table tr');
+            rows.forEach(row => {
+                const radios = row.querySelectorAll('input[type="radio"]');
+                if (radios.length >= 2) {
+                    if (status === 'A') {
+                        radios[1].checked = true;
+                    } else if (status === 'P') {
+                        radios[0].checked = true;
+                    }
+                }
+            });
+        }
+
+        async function submitAttendance() {
+
+            // Collect all radio button responses from the table
+            const records = {};
+            const rows = document.querySelectorAll('table tr');
+
+            rows.forEach(row => {
+                const enroll = row.cells?.[0]?.innerText.trim();
+                const radios = row.querySelectorAll('input[type="radio"]');
+                if (radios.length >= 2 && enroll?.startsWith('BT')) {
+                    if (radios[0].checked) records[enroll] = "P";
+                    else if (radios[1].checked) records[enroll] = "A";
+                    else records[enroll] = "-";
+                }
+            });
+
+            const date = new Date().toISOString().split('T')[0];
+            const teacher = sessionStorage.getItem('teacherName') || "Unknown";
+
+            // Send data to Google Sheets via Apps Script
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain"
+                    },
+                    body: JSON.stringify({
+                        section: "CSBS-A",
+                        date: date,
+                        teacher: teacher,
+                        records: records,
+                        savedAt: new Date().toLocaleString("en-IN")
+                    })
+                });
+                alert("✅ Attendance saved to Google Sheets!");
+            } catch (err) {
+                alert("❌ Could not save. Check your Script URL.\n" + err.message);
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

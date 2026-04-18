@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Faculty Dashboard – Smart Classroom</title>
+    <script src="theme.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0d1b2a;
+            color: #fff;
+            min-height: 100vh;
+            transition: background 0.35s, color 0.35s;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: linear-gradient(135deg, #1e3a5f, #0f2d5e);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #3b82f6;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar .brand .icon {
+            font-size: 28px;
+        }
+
+        .topbar .brand h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .topbar .brand p {
+            font-size: 0.72rem;
+            color: #7dd3fc;
+            margin-top: 2px;
+        }
+
+        .topbar .right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .welcome-badge {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.84rem;
+            color: #93c5fd;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-logout:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 68px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background: rgba(255, 255, 255, 0.04);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px 16px;
+        }
+
+        .sidebar h3 {
+            font-size: 0.72rem;
+            color: #4b7bab;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-left: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        .nav-item span.icon {
+            font-size: 18px;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* STAT CARDS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 22px 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-card .num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #60a5fa;
+        }
+
+        .stat-card .lbl {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* QUICK ACCESS */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .quick-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        .quick-card:hover {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+        }
+
+        .quick-card .ci {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .quick-card h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .quick-card p {
+            font-size: 0.77rem;
+            color: #94a3b8;
+        }
+
+        /* NOTICE BOARD */
+        .notice-box {
+            margin-top: 28px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+        }
+
+        .notice-box h3 {
+            color: #fbbf24;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .notice-item {
+            font-size: 0.83rem;
+            color: #e2e8f0;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .notice-item:last-child {
+            border: none;
+        }
+
+        .notice-item .dot {
+            color: #fbbf24;
+            margin-right: 8px;
+        }
+
+        /* ── Theme Toggle Button ──────────────────────── */
+        #theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 7px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            letter-spacing: 0.3px;
+        }
+
+        #theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        /* ── Light Mode Overrides ─────────────────────── */
+        html.light-mode body {
+            background: #dbeafe;
+            color: #1e293b;
+        }
+
+        html.light-mode .topbar {
+            background: linear-gradient(135deg, #93c5fd, #bfdbfe);
+            border-bottom-color: #3b82f6;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        html.light-mode .topbar .brand h1,
+        html.light-mode .topbar .brand p {
+            color: #1e3a8a;
+        }
+
+        html.light-mode .topbar .brand p {
+            color: #1e40af;
+        }
+
+        html.light-mode .welcome-badge {
+            background: rgba(30, 58, 138, 0.1);
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+
+        html.light-mode #theme-toggle-btn {
+            background: rgba(30, 58, 138, 0.1);
+            border-color: rgba(37, 99, 235, 0.4);
+            color: #1e3a8a;
+        }
+
+        html.light-mode .sidebar {
+            background: rgba(255, 255, 255, 0.55);
+            border-right-color: rgba(59, 130, 246, 0.25);
+        }
+
+        html.light-mode .sidebar h3 {
+            color: #2563eb;
+        }
+
+        html.light-mode .nav-item {
+            color: #1e40af;
+        }
+
+        html.light-mode .nav-item:hover,
+        html.light-mode .nav-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #1d4ed8;
+        }
+
+        html.light-mode .stat-card {
+            background: rgba(255, 255, 255, 0.75);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: #1e293b;
+        }
+
+        html.light-mode .stat-card .lbl {
+            color: #475569;
+        }
+
+        html.light-mode .section-title {
+            color: #1e3a8a;
+            border-bottom-color: rgba(59, 130, 246, 0.25);
+        }
+
+        html.light-mode .quick-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: #1e293b;
+        }
+
+        html.light-mode .quick-card p {
+            color: #475569;
+        }
+
+        html.light-mode .quick-card:hover {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: #3b82f6;
+        }
+
+        html.light-mode .notice-box {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: rgba(245, 158, 11, 0.35);
+        }
+
+        html.light-mode .notice-item {
+            color: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="brand">
+            <span class="icon"></span>
+            <div>
+                <h1>Smart Classroom Monitoring System</h1>
+                <p>MITS Gwalior</p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="welcome-badge"> Welcome, <strong id="facultyNameDisplay">Faculty</strong></div>
+            <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch theme">☀️ Light</button>
+            <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="layout">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h3>Navigation</h3>
+            <a class="nav-item active" href="faculty_dashboard.html">
+                <span class="icon"></span> Dashboard
+            </a>
+            <a class="nav-item" href="#" id="dynamic-nav-timetable">
+                <span class="icon"></span> Timetable
+            </a>
+            <a class="nav-item" href="#" id="dynamic-nav-attendance">
+                <span class="icon"></span> <span id="nav-att-text">Attendance</span>
+            </a>
+            <a class="nav-item" href="student_feedback.html">
+                <span class="icon">💬</span> Feedback
+            </a>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main">
+            <!-- Welcome Banner -->
+            <div id="welcome-header"
+                style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px;">
+                <h2 style="font-size: 1.6rem; color: #fff; margin: 0;">Welcome, <span id="faculty-hero-name"
+                        style="color: #60a5fa;">Faculty Name</span>!</h2>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 5px;">Let's Get Started!</p>
+            </div>
+
+            <h2 style="font-size:1.4rem; margin-bottom:22px; color:#e2e8f0;">
+                📊 Dashboard Overview
+            </h2>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="num" id="stat-students">--</div>
+                    <div class="lbl" id="stat-class-lbl">Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num">5</div>
+                    <div class="lbl">Subjects Monitored</div>
+                </div>
+            </div>
+
+            <p class="section-title">⚡ Quick Access</p>
+            <div class="quick-grid">
+                <a class="quick-card" href="#" id="dynamic-qa-attendance">
+                    <div class="ci">📋</div>
+                    <h3 id="qa-att-title">Class Attendance</h3>
+                    <p id="qa-att-desc">Mark attendance for your class</p>
+                </a>
+                <a class="quick-card" href="#" id="dynamic-qa-timetable">
+                    <div class="ci">📅</div>
+                    <h3>View Timetable</h3>
+                    <p>Check and manage classroom schedule</p>
+                </a>
+                <a class="quick-card" href="student_feedback.html">
+                    <div class="ci">💬</div>
+                    <h3>Feedback</h3>
+                    <p>View Feedback from Students</p>
+                </a>
+            </div>
+
+            <div class="notice-box">
+                <h3>📢 Notice Board</h3>
+                <div class="notice-item"><span class="dot">●</span> Session Jan–June 2026 is ongoing.</div>
+                <div class="notice-item"><span class="dot">●</span> Ensure attendance is marked daily.</div>
+                <div class="notice-item"><span class="dot">●</span> Feedback submissions close by end of semester.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auth guard
+        const name = sessionStorage.getItem('facultyName');
+        if (!name) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('facultyNameDisplay').textContent = name;
+            document.getElementById('faculty-hero-name').textContent = name;
+
+            // Dynamic Details based on logged in person
+            let sectionName = '';
+            let studentCount = 0;
+            let attendanceLink = '';
+            let timetableLink = '';
+
+            if (name.includes('Tejaswita') || name.includes('Mishra')) {
+                sectionName = 'CSBS Sec-B';
+                studentCount = '70';
+                attendanceLink = 'attendance_csbs_b.html';
+                timetableLink = 'csbsB_timetable.html';
+            } else if (name.includes('Gulshan') || name.includes('Soni')) {
+                sectionName = 'CSBS Sec-A';
+                studentCount = '80+';
+                attendanceLink = 'new_attendance_csbs_a.html';
+                timetableLink = 'csbsA_timetable.html';
+            } else if (name.includes('Suchitra') || name.includes('Agrawal')) {
+                sectionName = 'CST';
+                studentCount = '75';
+                attendanceLink = 'attendance_cst.html';
+                timetableLink = 'cst_timetable.html';
+            } else {
+                sectionName = 'Your Class';
+                studentCount = '--';
+                attendanceLink = '#';
+                timetableLink = '#';
+            }
+
+            document.getElementById('stat-students').textContent = studentCount;
+            document.getElementById('stat-class-lbl').textContent = `${sectionName} Students`;
+
+            document.getElementById('nav-att-text').textContent = `Attendance (${sectionName})`;
+            document.getElementById('dynamic-nav-attendance').href = attendanceLink;
+
+            document.getElementById('dynamic-nav-timetable').href = timetableLink;
+
+            document.getElementById('qa-att-title').textContent = `${sectionName} Attendance`;
+            document.getElementById('qa-att-desc').textContent = `Mark attendance for ${sectionName}`;
+            document.getElementById('dynamic-qa-attendance').href = attendanceLink;
+
+            document.getElementById('dynamic-qa-timetable').href = timetableLink;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('facultyName');
+                sessionStorage.removeItem('facultyDept');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

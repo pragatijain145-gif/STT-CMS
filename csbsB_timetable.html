@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSBS Section-B Timetable</title>
+    <script src="theme.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        .header {
+            text-align: center;
+            color: #000080;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 5px;
+            font-size: 24px;
+            text-decoration: underline;
+        }
+
+        .header h2 {
+            margin: 5px;
+            font-size: 18px;
+            color: #d93025;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            text-align: center;
+            padding: 8px;
+            font-size: 13px;
+            overflow: hidden;
+        }
+
+        /* Table Colors */
+        .day-col {
+            background-color: #00ffff;
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .time-row {
+            background-color: #ffd966;
+            font-weight: bold;
+        }
+
+        .lunch {
+            background-color: #d9ead3;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .course-info {
+            font-weight: bold;
+            display: block;
+        }
+
+        .faculty-info {
+            font-size: 11px;
+            font-style: italic;
+        }
+
+        .lab-text {
+            font-weight: bold;
+            color: #222;
+        }
+
+        .footer-table {
+            margin-top: 20px;
+            border: 2px solid #00ff00;
+            width: 100%;
+        }
+
+        .footer-table th {
+            background-color: #00ff00;
+            color: white;
+        }
+
+        /* ── Theme Toggle Button ─────────────────────── */
+        #theme-toggle-btn {
+            position: fixed; top: 12px; right: 16px; z-index: 999;
+            background: rgba(0,0,0,0.07); border: 1px solid rgba(0,0,0,0.18);
+            color: #1e3a8a; font-size: 0.82rem; font-weight: 600;
+            padding: 7px 16px; border-radius: 20px; cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        #theme-toggle-btn:hover { background: rgba(59,130,246,0.12); transform: translateY(-1px); }
+
+        html:not(.light-mode) body { background: #0d1b2a !important; color: #e2e8f0 !important; }
+        html:not(.light-mode) .header { color: #93c5fd; }
+        html:not(.light-mode) .header h2 { color: #fb923c; }
+        html:not(.light-mode) table { background: rgba(255,255,255,0.03) !important; }
+        html:not(.light-mode) th, html:not(.light-mode) td { border-color: rgba(255,255,255,0.2) !important; color: #e2e8f0 !important; }
+        html:not(.light-mode) .day-col { background: #1e3a5f !important; color: #93c5fd !important; }
+        html:not(.light-mode) .time-row { background: rgba(59,130,246,0.2) !important; }
+        html:not(.light-mode) .lunch { background: rgba(16,185,129,0.15) !important; }
+        html:not(.light-mode) #theme-toggle-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #93c5fd; }
+
+        html.light-mode body { background: linear-gradient(135deg, #bfdbfe, #dbeafe) !important; }
+    </style>
+</head>
+
+<body>
+
+    <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch theme">🌙 Dark</button>
+
+    <div class="header">
+        <h1>Master Time Table</h1>
+        <h2>B.Tech II Semester (Computer Science and Business Systems) [Section-B]</h2>
+        <p><strong>(Session: Jan - June 2026) &emsp;&emsp;&emsp; Room No.: M 303</strong></p>
+    </div>
+
+    <table>
+        <tr class="time-row">
+            <td class="day-col">DAY</td>
+            <td>09:00-10:00</td>
+            <td>10:00-11:00</td>
+            <td>11:00-12:00</td>
+            <td>12:00-01:00</td>
+            <td style="width: 40px;">01:00-02:00</td>
+            <td>02:00-03:00</td>
+            <td>03:00-04:00</td>
+            <td>04:00-05:00</td>
+            <td>05:00-06:00</td>
+        </tr>
+        <tr>
+            <td class="day-col">MON</td>
+            <td></td>
+            <td></td>
+            <td><span class="course-info">30251204</span><span class="faculty-info">(KT)</span></td>
+            <td><span class="course-info">30251201</span><span class="faculty-info">(AD)</span></td>
+            <td rowspan="5" class="lunch">LUNCH</td>
+            <td colspan="2"><span class="course-info">30251211</span><br><span class="faculty-info">(MS)</span></td>
+            <td colspan="2"><span class="course-info">30251209</span><br><span class="faculty-info">(SA+US)</span></td>
+        </tr>
+        <tr>
+            <td class="day-col">TUE</td>
+            <td></td>
+            <td><span class="course-info">30251203</span><span class="faculty-info">(BT)</span></td>
+            <td><span class="course-info">30251204</span><span class="faculty-info">(KT)</span></td>
+            <td><span class="course-info">30251202</span><span class="faculty-info">(DT)</span></td>
+            <td colspan="2" class="lab-text">30251208 Batch B<br>(VC+AT+MK)<br>BEE Lab</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="day-col">WED</td>
+            <td></td>
+            <td><span class="course-info">30251202</span><span class="faculty-info">(DT)</span></td>
+            <td><span class="course-info">30251205</span><span class="faculty-info">(VC)</span></td>
+            <td><span class="course-info">30251201</span><span class="faculty-info">(AD)</span></td>
+            <td colspan="2"><span class="course-info">30251207</span><br><span
+                    class="faculty-info">(DT+US+AF)</span><br>M 302</td>
+            <td colspan="2"><span class="course-info">30251210</span><br><span class="faculty-info">(SA+AF)</span><br>M
+                302</td>
+        </tr>
+        <tr>
+            <td class="day-col">THU</td>
+            <td></td>
+            <td><span class="course-info">30251204</span><span class="faculty-info">(KT)</span></td>
+            <td><span class="course-info">30251202</span><span class="faculty-info">(DT)</span></td>
+            <td><span class="course-info">30251203</span><span class="faculty-info">(BT)</span></td>
+            <td colspan="2"><span class="course-info">30251206</span><br><span
+                    class="faculty-info">(AD+SA+US)</span><br>M 302</td>
+            <td><span class="course-info">30251205</span><br><span class="faculty-info">(VC)</span></td>
+            <td style="font-weight:bold;">NEC</td>
+        </tr>
+        <tr>
+            <td class="day-col">FRI</td>
+            <td></td>
+            <td></td>
+            <td><span class="course-info">30251203</span><span class="faculty-info">(BT)</span></td>
+            <td><span class="course-info">30251201</span><span class="faculty-info">(AD)</span></td>
+            <td colspan="2" class="lab-text">30251208 Batch A<br>(VC+AT+MK)<br>BEE Lab</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <!-- Added Legend using the provided .footer-table style -->
+    <table class="footer-table">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Course Code</th>
+            <th>Course Name</th>
+        </tr>
+        <tr>
+            <td>30251201</td>
+            <td>Data Structures</td>
+            <td>30251206</td>
+            <td>Data Structures Lab</td>
+        </tr>
+        <tr>
+            <td>30251202</td>
+            <td>Object Oriented Programming</td>
+            <td>30251207</td>
+            <td>Object Oriented Programming Lab</td>
+        </tr>
+        <tr>
+            <td>30251203</td>
+            <td>Discrete Structures</td>
+            <td>30251208</td>
+            <td>Electrical & Electronics Engineering Lab</td>
+        </tr>
+        <tr>
+            <td>30251204</td>
+            <td>Probability and Random Processes</td>
+            <td>30251209</td>
+            <td>Semester Proficiency</td>
+        </tr>
+        <tr>
+            <td>30251205</td>
+            <td>Basic Electrical & Electronics Engineering</td>
+            <td>30251210</td>
+            <td>Micro Project-II</td>
+        </tr>
+        <tr>
+            <td>30251211</td>
+            <td>Sustainability & Environmental Science</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

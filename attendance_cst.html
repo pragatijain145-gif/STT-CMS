@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Attendance</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="theme.js"></script>
+    <style>
+        /* Basic styling to match the provided layout */
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: #2563eb;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+        }
+
+        .login-btn {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .submit-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* ── Theme Toggle Button ─────────────────────── */
+        #theme-toggle-btn {
+            position: fixed;
+            top: 14px; right: 18px; z-index: 999;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #1e293b;
+            font-size: 0.82rem; font-weight: 600;
+            padding: 8px 18px; border-radius: 20px;
+            cursor: pointer; transition: background 0.2s, transform 0.15s;
+        }
+        #theme-toggle-btn:hover { background: rgba(255,255,255,0.32); transform: translateY(-1px); }
+
+        /* ── Dark Mode (default) ─────────────────────── */
+        html:not(.light-mode) body { background: #0d1b2a !important; color: #e2e8f0 !important; }
+        html:not(.light-mode) .container { background: rgba(255,255,255,0.05) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        html:not(.light-mode) header { background: #1e3a5f !important; border-bottom: 2px solid #3b82f6; }
+        html:not(.light-mode) .card { background: transparent; }
+        html:not(.light-mode) .card h3 { color: #93c5fd !important; }
+        html:not(.light-mode) th { background: rgba(59,130,246,0.15) !important; color: #7dd3fc !important; border-color: rgba(255,255,255,0.1) !important; }
+        html:not(.light-mode) td { border-color: rgba(255,255,255,0.08) !important; color: #e2e8f0 !important; }
+        html:not(.light-mode) #theme-toggle-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #e2e8f0; }
+
+        /* ── Light Mode ────────────────────────────── */
+        html.light-mode body { background: linear-gradient(135deg, #bfdbfe, #dbeafe, #e0f2fe) !important; color: #1e293b !important; }
+        html.light-mode header { background: #3b82f6 !important; color: white !important; }
+        html.light-mode .container { background: rgba(255,255,255,0.85) !important; border: 1px solid rgba(59,130,246,0.2); }
+        html.light-mode th { background: rgba(59,130,246,0.1) !important; color: #1e40af !important; }
+        html.light-mode td { color: #1e293b !important; }
+        html.light-mode #theme-toggle-btn { background: rgba(30,58,138,0.1); border-color: rgba(37,99,235,0.35); color: #1e3a8a; }
+    </style>
+</head>
+
+<body>
+    <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch theme">☀️ Light</button>
+    <div class="container">
+        <header>
+            <div class="moving-text">Attendance Management</div>
+        </header>
+
+        <div class="card">
+            <h3>Mark Attendance</h3>
+            <h3>Course: B.Tech CST II Semester</h3>
+
+            <div style="margin-bottom: 15px;">
+                <button type="button" class="login-btn" style="background-color: #ef4444;"
+                    onclick="markDefault('A')">Mark All Absent</button>
+                <button type="button" class="login-btn" style="background-color: #b96210;"
+                    onclick="markDefault('P')">Mark All Present</button>
+            </div>
+
+            <form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BTTC2501001</td>
+                            <td>AAROHI JAIN</td> [cite: 16]
+                            <td><input type="radio" name="s1"></td>
+                            <td><input type="radio" name="s1"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501002</td>
+                            <td>AAYUSH DEHARIYA</td> [cite: 16]
+                            <td><input type="radio" name="s2"></td>
+                            <td><input type="radio" name="s2"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501003</td>
+                            <td>ABHAY SINGH CHAUHAN</td> [cite: 16]
+                            <td><input type="radio" name="s3"></td>
+                            <td><input type="radio" name="s3"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501004</td>
+                            <td>ADITYA KUMAR PATEL</td> [cite: 16]
+                            <td><input type="radio" name="s4"></td>
+                            <td><input type="radio" name="s4"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501005</td>
+                            <td>AGAM SHARMA</td> [cite: 16]
+                            <td><input type="radio" name="s5"></td>
+                            <td><input type="radio" name="s5"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501006</td>
+                            <td>AJAY KUMAR BAIS</td> [cite: 16]
+                            <td><input type="radio" name="s6"></td>
+                            <td><input type="radio" name="s6"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501007</td>
+                            <td>AJAY MEENA</td> [cite: 16]
+                            <td><input type="radio" name="s7"></td>
+                            <td><input type="radio" name="s7"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501008</td>
+                            <td>AJAY YADAV</td> [cite: 16]
+                            <td><input type="radio" name="s8"></td>
+                            <td><input type="radio" name="s8"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501009</td>
+                            <td>AKSHI GALAV</td> [cite: 16]
+                            <td><input type="radio" name="s9"></td>
+                            <td><input type="radio" name="s9"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501010</td>
+                            <td>AMOGH AMEYE</td> [cite: 16]
+                            <td><input type="radio" name="s10"></td>
+                            <td><input type="radio" name="s10"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501011</td>
+                            <td>AMRITA BIGHANE</td> [cite: 16]
+                            <td><input type="radio" name="s11"></td>
+                            <td><input type="radio" name="s11"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501012</td>
+                            <td>ANGEL LAL</td> [cite: 16]
+                            <td><input type="radio" name="s12"></td>
+                            <td><input type="radio" name="s12"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501013</td>
+                            <td>ANSHIKA BANSAL</td> [cite: 16]
+                            <td><input type="radio" name="s13"></td>
+                            <td><input type="radio" name="s13"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501014</td>
+                            <td>ANTRIKSH YADAV</td> [cite: 16]
+                            <td><input type="radio" name="s14"></td>
+                            <td><input type="radio" name="s14"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501015</td>
+                            <td>ANVESH KUMAR</td> [cite: 16]
+                            <td><input type="radio" name="s15"></td>
+                            <td><input type="radio" name="s15"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501016</td>
+                            <td>ARPIT CHAKRAVARTY</td> [cite: 16]
+                            <td><input type="radio" name="s16"></td>
+                            <td><input type="radio" name="s16"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501017</td>
+                            <td>ARPIT PATEL</td> [cite: 16]
+                            <td><input type="radio" name="s17"></td>
+                            <td><input type="radio" name="s17"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501018</td>
+                            <td>ARUNIM RICHHARIYA</td> [cite: 16]
+                            <td><input type="radio" name="s18"></td>
+                            <td><input type="radio" name="s18"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501019</td>
+                            <td>ARYAN DINESH BHADOR</td> [cite: 16]
+                            <td><input type="radio" name="s19"></td>
+                            <td><input type="radio" name="s19"></td>
+                        </tr>
+                        <tr>
+                            <td>BTTC2501020</td>
+                            <td>ARYAN RANA</td> [cite: 16]
+                            <td><input type="radio" name="s20"></td>
+                            <td><input type="radio" name="s20"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="submit-container">
+                    <button type="submit" class="login-btn" style="background-color: #2563eb;">Submit
+                        Attendance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function markDefault(status) {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const radios = row.querySelectorAll('input[type="radio"]');
+                if (radios.length >= 2) {
+                    if (status === 'A') radios[1].checked = true;
+                    else if (status === 'P') radios[0].checked = true;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

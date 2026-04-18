@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus | Monitoring & Timetable</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --light: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 250px;
+            height: 100vh;
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            box-sizing: border-box;
+        }
+
+        nav h2 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            display: block;
+            margin: 15px 0;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a i {
+            margin-right: 12px;
+            font-size: 1.1em;
+            width: 20px;
+            text-align: center;
+        }
+
+        nav a:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content Area */
+        main {
+            margin-left: 280px;
+            padding: 40px;
+            width: 100%;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Timetable Styling */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Monitoring Section */
+        .monitor-screen {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-indicator {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .status-occupied {
+            background: #fadbd8;
+            color: var(--danger);
+        }
+
+        .status-vacant {
+            background: #d4efdf;
+            color: var(--success);
+        }
+
+        .live-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: red;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2><i class="fas fa-university"></i> SmartCampus</h2>
+        <a href="home.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="timetable.html"><i class="fas fa-calendar-alt"></i> Timetable</a>
+        <a href="#"><i class="fas fa-video"></i> Live Monitoring</a>
+        <a href="chooseclass.html"><i class="fas fa-user-check"></i> Attendance</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    </nav>
+
+    <main>
+        <header>
+            <h1>Dashboard Overview</h1>
+            <p id="current-time"></p>
+        </header>
+
+        <div class="dashboard-grid">
+            <section class="card">
+                <h3><i class="fas fa-clock"></i> Today's Schedule</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Subject</th>
+                            <th>Room</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body">
+                        <tr>
+                            <td>09:00 - 10:30</td>
+                            <td>Advanced C++</td>
+                            <td>Lab 3</td>
+                            <td><span class="status-indicator status-occupied">Ongoing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="card">
+                <h3><i class="fas fa-eye"></i> Live Room Monitor</h3>
+                <div class="monitor-screen">
+                    <div class="live-tag">● LIVE</div>
+                    <div id="camera-status">SCANNING ROOM 101...</div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <p><strong>Occupancy:</strong> <span id="occ-count">12 Persons</span></p>
+                    <p><strong>Light Status:</strong> <span style="color:var(--success)">Auto-ON</span></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Update clock
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').innerText = now.toDateString() + " | " + now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // FUNCTION TO CONNECT TO YOUR C++ BACKEND
+        async function fetchSystemData() {
+            try {
+                // Replace with your actual C++ server address (e.g., http://localhost:18080/get-data)
+                const response = await fetch('http://localhost:18080/get-timetable');
+                const data = await response.json();
+
+                // Logic to update the table would go here
+                console.log("Data received from C++:", data);
+            } catch (err) {
+                console.warn("C++ Server not started yet. Using placeholder data.");
+            }
+        }
+
+        // Poll the C++ backend every 3 seconds
+        setInterval(fetchSystemData, 3000);
+    </script>
+</body>
+
+</html>

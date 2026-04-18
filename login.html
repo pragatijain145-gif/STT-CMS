@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Classroom - Login Portal</title>
+    <!-- Load theme.js FIRST so the class is applied before any paint -->
+    <script src="theme.js"></script>
+    <style>
+        :focus-visible {
+            outline: 3px solid #60a5fa;
+            outline-offset: 2px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a161a, #1a2e35, #1e3a44);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            padding: 20px;
+            transition: background 0.35s, color 0.35s;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .form-content {
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #60a5fa;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-faculty {
+            background: #3b82f6;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .error {
+            display: none;
+            margin-top: 15px;
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .institute {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ── Theme Toggle Button ─────────────────────── */
+        #theme-toggle-btn {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: background 0.2s, transform 0.15s;
+            letter-spacing: 0.3px;
+        }
+        #theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+
+        /* ── Light Mode Overrides ────────────────────── */
+        html.light-mode body {
+            background: linear-gradient(135deg, #bfdbfe, #dbeafe, #e0f2fe);
+        }
+        html.light-mode #theme-toggle-btn {
+            background: rgba(30, 58, 138, 0.12);
+            border-color: rgba(37, 99, 235, 0.35);
+            color: #1e3a8a;
+        }
+        html.light-mode .card {
+            background: rgba(255, 255, 255, 0.88);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #1e293b;
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+        }
+        html.light-mode .tabs {
+            background: rgba(59, 130, 246, 0.1);
+        }
+        html.light-mode .tab-btn {
+            color: #475569;
+        }
+        html.light-mode label {
+            color: #1e293b;
+        }
+        html.light-mode input,
+        html.light-mode select {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(59, 130, 246, 0.35);
+            color: #1e293b;
+        }
+        html.light-mode input::placeholder {
+            color: #94a3b8;
+        }
+        html.light-mode .institute {
+            color: rgba(30, 41, 59, 0.55);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark / Light Mode Toggle -->
+    <button id="theme-toggle-btn" onclick="toggleTheme()" title="Switch theme">☀️ Light</button>
+
+    <main class="card">
+        <div class="logo">
+            <h1 id="portal-title">Smart Classroom Portal</h1>
+            <p style="font-size: 0.8rem; color: #cbdcf7;">Select your role to continue</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('student')">Student</button>
+            <button class="tab-btn" onclick="switchTab('faculty')">Faculty</button>
+        </div>
+
+        <div id="student-form" class="form-content active">
+            <div class="form-group">
+                <label for="sname">Full Name</label>
+                <input type="text" id="sname" placeholder="Enter student name">
+            </div>
+            <div class="form-group">
+                <label for="sid">ID Number</label>
+                <input type="text" id="sid" placeholder="Enter ID number">
+            </div>
+            <div class="form-group">
+                <label for="sclass">Class/Section</label>
+                <select id="sclass">
+                    <option value="">-- Select Class --</option>
+                    <option value="CSBS Sec A">CSBS Sec A</option>
+                    <option value="CSBS Sec B">CSBS Sec B</option>
+                    <option value="CST">CST</option>
+                </select>
+            </div>
+            <button class="btn" onclick="handleStudentLogin()">Student Login</button>
+        </div>
+
+        <div id="faculty-form" class="form-content">
+            <div class="form-group">
+                <label for="tname">Faculty Name</label>
+                <input type="text" id="tname" placeholder="e.g. Tejaswita Mishra">
+            </div>
+            <div class="form-group">
+                <label for="tpass">Password</label>
+                <input type="password" id="tpass" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label for="tdept">Department</label>
+                <select id="tdept">
+                    <option value="">-- Select Department --</option>
+                    <option value="CST">Computer Science & Technology</option>
+                    <option value="CSBS">Computer Science & Business Systems</option>
+                </select>
+            </div>
+            <button class="btn btn-faculty" onclick="handleFacultyLogin()">🔐 Faculty Login</button>
+        </div>
+
+        <div id="errMsg" class="error" role="alert"></div>
+
+        <footer class="institute">
+            <p>MITS Gwalior — Session (Jan-June 2026)</p>
+        </footer>
+    </main>
+
+    <script>
+        const authorizedFaculty = ["Tejaswita Mishra", "Gulshan Soni", "Suchitra Agrawal"];
+
+        function switchTab(role) {
+            // UI Toggle
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.form-content').forEach(form => form.classList.remove('active'));
+
+            if (role === 'student') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('student-form').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('faculty-form').classList.add('active');
+            }
+        }
+
+        function handleStudentLogin() {
+            const name = document.getElementById('sname').value.trim();
+            const sid = document.getElementById('sid').value.trim();
+            const sclass = document.getElementById('sclass').value;
+            const errMsg = document.getElementById('errMsg');
+
+            // Reset error
+            errMsg.style.display = 'none';
+            errMsg.textContent = '';
+
+            if (!name || !sid || !sclass) {
+                showError('⚠️ Please fill in all fields.');
+                return;
+            }
+
+            // Provide logic for student login here or just redirect
+            sessionStorage.setItem('studentName', name);
+            sessionStorage.setItem('studentId', sid);
+            sessionStorage.setItem('studentClass', sclass);
+            window.location.href = 'student_home.html';
+        }
+
+        function handleFacultyLogin() {
+            const name = document.getElementById('tname').value.trim();
+            const pass = document.getElementById('tpass').value.trim();
+            const dept = document.getElementById('tdept').value;
+            const errMsg = document.getElementById('errMsg');
+
+            // Reset error
+            errMsg.style.display = 'none';
+            errMsg.textContent = '';
+
+            if (!name || !pass || !dept) {
+                showError('⚠️ Please fill in all fields.');
+                return;
+            }
+
+            // Linear search logic (Simplified for JS)
+            const found = authorizedFaculty.find(t => t.toLowerCase() === name.toLowerCase());
+
+            if (found && pass.length >= 3) {
+                sessionStorage.setItem('facultyName', found);
+                sessionStorage.setItem('facultyDept', dept);
+                window.location.href = 'faculty_dashboard.html';
+            } else {
+                showError('❌ Access Denied. Invalid Faculty Name or Password.');
+            }
+        }
+
+        function showError(msg) {
+            const errMsg = document.getElementById('errMsg');
+            errMsg.textContent = msg;
+            errMsg.style.display = 'block';
+        }
+    </script>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback – Smart Classroom</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0d1b2a;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: linear-gradient(135deg, #1e3a5f, #0f2d5e);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar .brand .icon {
+            font-size: 26px;
+        }
+
+        .topbar .brand h1 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .topbar .brand p {
+            font-size: 0.72rem;
+            color: #7dd3fc;
+        }
+
+        .topbar .right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome-badge {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            color: #93c5fd;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.83rem;
+            font-weight: 600;
+            padding: 7px 14px;
+            cursor: pointer;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #cbd5e1;
+            font-size: 0.83rem;
+            padding: 7px 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .main {
+            padding: 28px 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 9px 20px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border-color: #3b82f6;
+        }
+
+        /* SUBMIT FEEDBACK PANEL */
+        .panel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 28px 30px;
+            margin-bottom: 24px;
+        }
+
+        .panel h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            color: #7dd3fc;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 9px;
+            color: #fff;
+            padding: 10px 14px;
+            font-size: 0.88rem;
+            outline: none;
+            font-family: inherit;
+            transition: border 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #3b82f6;
+        }
+
+        .form-group select option {
+            background: #1e3a5f;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* STAR RATING */
+        .stars {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .star {
+            font-size: 26px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.2);
+            transition: color 0.15s, transform 0.1s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #fbbf24;
+            transform: scale(1.15);
+        }
+
+        .btn-submit {
+            margin-top: 20px;
+            padding: 11px 28px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* FEEDBACK CARDS */
+        .fb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .fb-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 20px 22px;
+            transition: transform 0.2s;
+        }
+
+        .fb-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .fb-card .fb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .fb-card .fb-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .fb-card .fb-meta {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 3px;
+        }
+
+        .fb-card .fb-stars {
+            color: #fbbf24;
+            font-size: 0.9rem;
+        }
+
+        .fb-card .fb-category {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #7dd3fc;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .fb-card .fb-text {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.55;
+        }
+
+        .fb-card .fb-response {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #86efac;
+        }
+
+        .fb-card .fb-response strong {
+            color: #4ade80;
+        }
+
+        /* EMPTY */
+        .empty {
+            text-align: center;
+            padding: 48px 0;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        /* TOAST */
+        .toast {
+            display: none;
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #22c55e;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="brand">
+            <span class="icon">💬</span>
+            <div>
+                <h1>Feedback Portal</h1>
+                <p>Smart Classroom Monitoring System — MITS Gwalior</p>
+            </div>
+        </div>
+        <div class="right">
+            <a class="btn-back" href="faculty_dashboard.html">← Dashboard</a>
+            <div class="welcome-badge">👩‍🏫 <span id="fNameDisp">Faculty</span></div>
+            <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <div class="main">
+        <p class="section-title">💬 Student Feedback Management</p>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('submit', this)">📝 Submit Feedback</button>
+            <button class="tab" onclick="switchTab('view', this)">📂 View Feedbacks</button>
+            <button class="tab" onclick="switchTab('stats', this)">📊 Statistics</button>
+        </div>
+
+        <!-- SUBMIT PANEL -->
+        <div id="panel-submit">
+            <div class="panel">
+                <h3>📝 Submit Student Feedback</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Student Enrollment No.</label>
+                        <input type="text" id="fbEnroll" placeholder="e.g. BTTC25O1001" />
+                    </div>
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="fbStudName" placeholder="e.g. Aarohi Jain" />
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="fbSubj">
+                            <option value="">-- Select Subject --</option>
+                            <option>Data Structures (34251201)</option>
+                            <option>Object Oriented Programming (34251202)</option>
+                            <option>Discrete Structures (34251203)</option>
+                            <option>Probability & Random Process (34251204)</option>
+                            <option>Basic Electrical & Electronics Engg. (34251205)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Feedback Category</label>
+                        <select id="fbCat">
+                            <option>Academic Performance</option>
+                            <option>Classroom Behaviour</option>
+                            <option>Attendance Concern</option>
+                            <option>Assignment Submission</option>
+                            <option>Positive Appreciation</option>
+                            <option>Needs Improvement</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label>Performance Rating</label>
+                        <div class="stars" id="starRow">
+                            <span class="star" onclick="setRating(1)">★</span>
+                            <span class="star" onclick="setRating(2)">★</span>
+                            <span class="star" onclick="setRating(3)">★</span>
+                            <span class="star" onclick="setRating(4)">★</span>
+                            <span class="star" onclick="setRating(5)">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <label>Detailed Feedback / Remarks</label>
+                        <textarea id="fbText"
+                            placeholder="Write your detailed feedback, observations, or suggestions here..."></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <label>Suggested Action (optional)</label>
+                        <input type="text" id="fbAction"
+                            placeholder="e.g. Counsel student, Inform parents, Schedule extra class..." />
+                    </div>
+                </div>
+                <button class="btn-submit" onclick="submitFeedback()">📤 Submit Feedback</button>
+            </div>
+        </div>
+
+        <!-- VIEW PANEL -->
+        <div id="panel-view" style="display:none;">
+            <div class="panel" style="margin-bottom:18px;">
+                <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                    <input type="text" id="fbSearch" placeholder="🔍 Search by name or enrollment..."
+                        oninput="renderCards()" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);
+          border-radius:8px;color:#fff;padding:9px 14px;font-size:0.85rem;outline:none;flex:1;min-width:200px;" />
+                    <select id="fbCatFilter" onchange="renderCards()" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);
+          border-radius:8px;color:#fff;padding:9px 14px;font-size:0.85rem;outline:none;">
+                        <option value="">All Categories</option>
+                        <option>Academic Performance</option>
+                        <option>Classroom Behaviour</option>
+                        <option>Attendance Concern</option>
+                        <option>Assignment Submission</option>
+                        <option>Positive Appreciation</option>
+                        <option>Needs Improvement</option>
+                    </select>
+                </div>
+            </div>
+            <div class="fb-grid" id="fbGrid"></div>
+            <div class="empty" id="fbEmpty" style="display:none;">📭 No feedbacks found.</div>
+        </div>
+
+        <!-- STATS PANEL -->
+        <div id="panel-stats" style="display:none;">
+            <div
+                style="display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:22px;">
+                <div class="panel" style="text-align:center; padding:20px;">
+                    <div style="font-size:2rem;font-weight:800;color:#60a5fa;" id="statTotal">0</div>
+                    <div style="font-size:0.78rem;color:#94a3b8;margin-top:4px;">Total Feedbacks</div>
+                </div>
+                <div class="panel" style="text-align:center; padding:20px;">
+                    <div style="font-size:2rem;font-weight:800;color:#fbbf24;" id="statAvgRating">-</div>
+                    <div style="font-size:0.78rem;color:#94a3b8;margin-top:4px;">Avg Rating</div>
+                </div>
+                <div class="panel" style="text-align:center; padding:20px;">
+                    <div style="font-size:2rem;font-weight:800;color:#4ade80;" id="statPos">0</div>
+                    <div style="font-size:0.78rem;color:#94a3b8;margin-top:4px;">Positive</div>
+                </div>
+                <div class="panel" style="text-align:center; padding:20px;">
+                    <div style="font-size:2rem;font-weight:800;color:#f87171;" id="statNeg">0</div>
+                    <div style="font-size:0.78rem;color:#94a3b8;margin-top:4px;">Needs Improvement</div>
+                </div>
+            </div>
+            <div class="panel">
+                <h3 style="margin-bottom:16px;">📊 Category Breakdown</h3>
+                <div id="catBreakdown"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">✅ Feedback submitted successfully!</div>
+
+    <script>
+        const fName = sessionStorage.getItem('facultyName');
+        if (!fName) window.location.href = 'login.html';
+        document.getElementById('fNameDisp').textContent = fName;
+
+        let currentRating = 0;
+        let feedbacks = JSON.parse(localStorage.getItem('facultyFeedbacks') || '[]');
+
+        function setRating(r) {
+            currentRating = r;
+            document.querySelectorAll('.star').forEach((s, i) => {
+                s.classList.toggle('active', i < r);
+            });
+        }
+
+        function switchTab(tab, btn) {
+            ['submit', 'view', 'stats'].forEach(t => {
+                document.getElementById('panel-' + t).style.display = t === tab ? 'block' : 'none';
+            });
+            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (tab === 'view') renderCards();
+            if (tab === 'stats') renderStats();
+        }
+
+        function submitFeedback() {
+            const enroll = document.getElementById('fbEnroll').value.trim();
+            const studName = document.getElementById('fbStudName').value.trim();
+            const subj = document.getElementById('fbSubj').value;
+            const cat = document.getElementById('fbCat').value;
+            const text = document.getElementById('fbText').value.trim();
+            const action = document.getElementById('fbAction').value.trim();
+
+            if (!enroll || !studName || !subj || !text) {
+                alert('Please fill in all required fields (Enrollment, Name, Subject, Feedback text).'); return;
+            }
+
+            const fb = {
+                id: Date.now(),
+                enroll, studName, subj, cat, text, action,
+                rating: currentRating,
+                faculty: fName,
+                date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+            };
+            feedbacks.push(fb);
+            localStorage.setItem('facultyFeedbacks', JSON.stringify(feedbacks));
+
+            // Reset form
+            ['fbEnroll', 'fbStudName', 'fbText', 'fbAction'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('fbSubj').value = '';
+            setRating(0);
+            currentRating = 0;
+
+            showToast('✅ Feedback submitted successfully!');
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('fbGrid');
+            const empty = document.getElementById('fbEmpty');
+            const search = document.getElementById('fbSearch').value.toLowerCase();
+            const catF = document.getElementById('fbCatFilter').value;
+
+            const filtered = feedbacks.filter(f => {
+                const matchSearch = !search || f.studName.toLowerCase().includes(search) || f.enroll.toLowerCase().includes(search);
+                const matchCat = !catF || f.cat === catF;
+                return matchSearch && matchCat;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = ''; empty.style.display = 'block'; return;
+            }
+            empty.style.display = 'none';
+
+            grid.innerHTML = filtered.reverse().map(f => `
+    <div class="fb-card">
+      <div class="fb-header">
+        <div>
+          <div class="fb-name">${f.studName}</div>
+          <div class="fb-meta">${f.enroll} · ${f.date} · ${f.faculty}</div>
+        </div>
+        <div class="fb-stars">${'★'.repeat(f.rating || 0)}${'☆'.repeat(5 - (f.rating || 0))}</div>
+      </div>
+      <span class="fb-category">${f.cat}</span>
+      <div class="fb-text">${f.text}</div>
+      ${f.action ? `<div class="fb-response"><strong>Suggested Action:</strong> ${f.action}</div>` : ''}
+      <div style="margin-top:8px;font-size:0.75rem;color:#475569;">📚 ${f.subj}</div>
+    </div>
+  `).join('');
+        }
+
+        function renderStats() {
+            document.getElementById('statTotal').textContent = feedbacks.length;
+            const rated = feedbacks.filter(f => f.rating > 0);
+            const avg = rated.length ? (rated.reduce((s, f) => s + f.rating, 0) / rated.length).toFixed(1) : '-';
+            document.getElementById('statAvgRating').textContent = avg;
+            document.getElementById('statPos').textContent = feedbacks.filter(f => f.cat === 'Positive Appreciation').length;
+            document.getElementById('statNeg').textContent = feedbacks.filter(f => f.cat === 'Needs Improvement').length;
+
+            const cats = {};
+            feedbacks.forEach(f => { cats[f.cat] = (cats[f.cat] || 0) + 1; });
+            const bd = document.getElementById('catBreakdown');
+            bd.innerHTML = Object.entries(cats).map(([cat, count]) => `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <div style="width:160px;font-size:0.82rem;color:#94a3b8;">${cat}</div>
+      <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:10px;">
+        <div style="width:${Math.min(100, count * 20)}%;background:#3b82f6;border-radius:4px;height:100%;"></div>
+      </div>
+      <div style="font-size:0.82rem;color:#60a5fa;width:24px;">${count}</div>
+    </div>
+  `).join('') || '<div style="color:#475569;font-size:0.85rem;">No data yet.</div>';
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
+        }
+
+        function logout() {
+            if (confirm('Logout?')) { sessionStorage.clear(); window.location.href = 'login.html'; }
+        }
+    </script>
+</body>
+
+</html>

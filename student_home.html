@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Smart Campus</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="theme.js"></script>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark-bg: #0d1b2a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --sidebar-bg: rgba(255, 255, 255, 0.04);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        html.light-mode {
+            --dark-bg: #dbeafe;
+            --card-bg: rgba(255, 255, 255, 0.78);
+            --sidebar-bg: rgba(255, 255, 255, 0.6);
+            --text-main: #1e293b;
+            --text-dim: #475569;
+            --accent: #2563eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 250px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 20px;
+            position: fixed;
+        }
+
+        nav h2 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px 18px;
+            border-radius: 10px;
+            color: var(--text-dim);
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a i {
+            margin-right: 12px;
+            font-size: 1.1em;
+            width: 20px;
+            text-align: center;
+        }
+
+        nav ul li a:hover {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        /* Main Content Area */
+        main {
+            margin-left: 250px;
+            padding: 40px;
+            width: calc(100% - 250px);
+        }
+
+        .welcome-section {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-section h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--text-main);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .current-class,
+        .next-class {
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--text-main);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .attendance-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .attendance-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .attendance-fill {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        .low-attendance {
+            background: var(--danger);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        th {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+
+        .status-indicator {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .status-vacant {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-occupied {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* ── Theme Toggle Button ─────────────────────── */
+        #theme-toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: calc(100% - 0px);
+            margin-top: 16px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        #theme-toggle-btn:hover {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+        }
+
+        html.light-mode nav {
+            border-right-color: rgba(59, 130, 246, 0.2);
+        }
+        html.light-mode nav h2 { color: #1e3a8a; }
+        html.light-mode th {
+            background-color: rgba(37, 99, 235, 0.15);
+            color: var(--accent);
+        }
+        html.light-mode td {
+            border-bottom-color: rgba(59, 130, 246, 0.12);
+        }
+        html.light-mode .card {
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        html.light-mode .welcome-section {
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        html.light-mode body {
+            transition: background-color 0.35s, color 0.35s;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h2><i class="fas fa-user-graduate"></i> Student Portal</h2>
+        <ul>
+            <li><a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#" onclick="openTimetable()"><i class="fas fa-calendar-alt"></i> Timetable</a></li>
+            <li><a href="#attendance"><i class="fas fa-chart-bar"></i> Attendance</a></li>
+            <li><a href="student_feedback.html"><i class="fas fa-comments"></i> Feedback</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+        <button id="theme-toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+    </nav>
+
+    <main>
+        <div class="welcome-section">
+            <h1 id="student-name">Welcome, Student!</h1>
+            <h3 id="student-class-display" style="color: var(--accent); margin-top: 5px; margin-bottom: 15px;"></h3>
+            <p id="current-time"></p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3><i class="fas fa-clock"></i> Current & Next Class</h3>
+                <div id="current-class" class="current-class">
+                    <h4>Current Class</h4>
+                    <p id="current-class-info">No current class</p>
+                </div>
+                <div id="next-class" class="next-class" style="background: var(--success);">
+                    <h4>Next Class</h4>
+                    <p id="next-class-info">No upcoming classes</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-chart-pie"></i> Overall Attendance</h3>
+                <div class="attendance-summary">
+                    <span id="attendance-percentage">0%</span>
+                    <span id="attendance-count">0/0 classes</span>
+                </div>
+                <div class="attendance-bar">
+                    <div id="attendance-fill" class="attendance-fill" style="width: 0%"></div>
+                </div>
+                <p>Keep up the good work!</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-exclamation-triangle"></i> Classes with Low Attendance (&lt;75%)</h3>
+            <div id="low-attendance-list">
+                <p>No classes with low attendance.</p>
+            </div>
+        </div>
+
+        <!-- <div class="card">
+            <h3><i class="fas fa-calendar-week"></i> Today's Timetable</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Subject</th>
+                        <th>Room</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="timetable-body">
+                    <tr>
+                        <td colspan="4">Loading timetable...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+    </main>
+
+    <script>
+        // Get student info from URL parameters or sessionStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('studentId') || sessionStorage.getItem('studentId');
+        const sNameQuery = urlParams.get('sName') || sessionStorage.getItem('studentName');
+        const sClassQuery = urlParams.get('sClass') || sessionStorage.getItem('studentClass');
+
+        if (!studentId) {
+            alert('Student ID not found. Redirecting to login.');
+            window.location.href = 'login.html';
+        }
+
+        if (sNameQuery) {
+            document.getElementById('student-name').innerText = `Welcome, ${sNameQuery}!`;
+        }
+
+        if (sClassQuery) {
+            document.getElementById('student-class-display').innerText = `Class: ${sClassQuery}`;
+        }
+
+        // Update clock
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').innerText = now.toDateString() + " | " + now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Open specific timetable based on class
+        function openTimetable() {
+            if (sClassQuery === 'CSBS Sec B') {
+                window.location.href = 'csbsB_timetable.html';
+            } else if (sClassQuery === 'CSBS Sec A') {
+                window.location.href = 'csbsA_timetable.html';
+            } else if (sClassQuery === 'CST') {
+                window.location.href = 'cst_timetable.html';
+            } else {
+                alert('Class not recognized.');
+            }
+        }
+
+        // Load student data
+        async function loadStudentData() {
+            try {
+                // Get student info
+                const studentResponse = await fetch(`http://localhost:18080/get-student/${studentId}`);
+                const student = await studentResponse.json();
+                if (student) {
+                    document.getElementById('student-name').innerText = `Welcome, ${student.name}!`;
+                }
+
+                // Get current and next class
+                const classResponse = await fetch(`http://localhost:18080/get-current-next-class/${studentId}`);
+                const classData = await classResponse.json();
+
+                if (classData.current) {
+                    document.getElementById('current-class-info').innerHTML =
+                        `<strong>${classData.current.subject}</strong><br>Room: ${classData.current.room}<br>Time: ${classData.current.time}`;
+                }
+
+                if (classData.next) {
+                    document.getElementById('next-class-info').innerHTML =
+                        `<strong>${classData.next.subject}</strong><br>Room: ${classData.next.room}<br>Time: ${classData.next.time}`;
+                }
+
+                // Get overall attendance
+                const attendanceResponse = await fetch(`http://localhost:18080/get-overall-attendance/${studentId}`);
+                const attendance = await attendanceResponse.json();
+
+                document.getElementById('attendance-percentage').innerText = `${attendance.percentage}%`;
+                document.getElementById('attendance-count').innerText = `${attendance.present}/${attendance.total} classes`;
+                document.getElementById('attendance-fill').style.width = `${attendance.percentage}%`;
+
+                // Get low attendance classes
+                const lowAttendanceResponse = await fetch(`http://localhost:18080/get-low-attendance/${studentId}`);
+                const lowAttendance = await lowAttendanceResponse.json();
+
+                const lowAttendanceDiv = document.getElementById('low-attendance-list');
+                if (lowAttendance.length > 0) {
+                    lowAttendanceDiv.innerHTML = lowAttendance.map(cls =>
+                        `<div class="low-attendance">
+                            <strong>${cls.subject}</strong>: ${cls.percentage.toFixed(1)}% (${cls.present_count}/${cls.total_classes} classes)
+                        </div>`
+                    ).join('');
+                }
+
+                // Get timetable
+                const timetableResponse = await fetch('http://localhost:18080/get-timetable');
+                const timetable = await timetableResponse.json();
+
+                const tbody = document.getElementById('timetable-body');
+                tbody.innerHTML = timetable.map(cls =>
+                    `<tr>
+                        <td>${cls.time}</td>
+                        <td>${cls.subject}</td>
+                        <td>${cls.room}</td>
+                        <td><span class="status-indicator status-${cls.status.toLowerCase()}">${cls.status}</span></td>
+                    </tr>`
+                ).join('');
+
+            } catch (err) {
+                console.error('Error loading data:', err);
+                // Show placeholder data if server is not running
+                document.getElementById('timetable-body').innerHTML =
+                    '<tr><td colspan="4">Server not running. Please start the server.</td></tr>';
+            }
+        }
+
+        // Load data on page load
+        loadStudentData();
+
+        // Refresh data every 30 seconds
+        setInterval(loadStudentData, 30000);
+
+        //....................................................................................
+        // Timetable Data for all sections
+        const timetables = {
+            'CSBS Sec A': [
+                { time: '09:00', end: '10:00', subject: '30251208 (VC+HS)', room: 'M 006' },
+                { time: '11:00', end: '12:00', subject: 'Data Structures (AD)', room: 'M 301' },
+                { time: '12:00', end: '13:00', subject: 'Discrete Structures (BT)', room: 'M 301' },
+                { time: '14:00', end: '15:00', subject: 'OOP (DT)', room: 'M 301' },
+                { time: '15:00', end: '16:00', subject: 'Probability (KT)', room: 'M 301' }
+            ],
+            'CSBS Sec B': [
+                { time: '11:00', end: '12:00', subject: 'Probability (KT)', room: 'M 303' },
+                { time: '12:00', end: '13:00', subject: 'Data Structures (AD)', room: 'M 303' },
+                { time: '14:00', end: '16:00', subject: 'Sustainability (MS)', room: 'M 303' },
+                { time: '16:00', end: '18:00', subject: 'Semester Proficiency', room: 'M 303' }
+            ],
+            'CST': [
+                { time: '10:00', end: '11:00', subject: 'OOP (SA)', room: 'M 301' },
+                { time: '11:00', end: '13:00', subject: 'OOP Lab', room: 'M 302' },
+                { time: '14:00', end: '15:00', subject: 'Electrical (KS)', room: '110' },
+                { time: '15:00', end: '16:00', subject: 'Discrete (BT)', room: '110' }
+            ]
+        };
+        function updateClassStatus() {
+            const now = new Date();
+            const currentTimeStr = now.getHours().toString().padStart(2, '0') + ":" +
+                now.getMinutes().toString().padStart(2, '0');
+
+            // Get schedule for the logged-in student's class
+            const schedule = timetables[sClassQuery] || [];
+
+            let current = null;
+            let next = null;
+
+            schedule.forEach((cls, index) => {
+                if (currentTimeStr >= cls.time && currentTimeStr < cls.end) {
+                    current = cls;
+                    next = schedule[index + 1] || null;
+                } else if (!current && !next && cls.time > currentTimeStr) {
+                    next = cls;
+                }
+            });
+
+            // Update UI for Current Class
+            const currentDiv = document.getElementById('current-class-info');
+            if (current) {
+                currentDiv.innerHTML = `<strong>${current.subject}</strong><br>Room: ${current.room}<br>Ends at: ${current.end}`;
+                document.getElementById('current-class').style.background = "var(--accent)";
+            } else {
+                currentDiv.innerText = "No current class";
+                document.getElementById('current-class').style.background = "#bdc3c7"; // Grey when empty
+            }
+
+            // Update UI for Next Class
+            const nextDiv = document.getElementById('next-class-info');
+            if (next) {
+                nextDiv.innerHTML = `<strong>${next.subject}</strong><br>Room: ${next.room}<br>Starts at: ${next.time}`;
+                document.getElementById('next-class').style.background = "var(--success)";
+            } else {
+                nextDiv.innerText = "No more classes today";
+                document.getElementById('next-class').style.background = "#bdc3c7"; // Grey when empty
+            }
+        }
+
+        // function populateTodayTable() {
+        //     const tbody = document.getElementById('timetable-body');
+        //     const schedule = timetables[sClassQuery] || [];
+
+        //     if (schedule.length === 0) {
+        //         tbody.innerHTML = '<tr><td colspan="4">No schedule found for this section.</td></tr>';
+        //         return;
+        //     }
+
+        //     tbody.innerHTML = schedule.map(cls => {
+        //         // Simple logic to see if class is "Occupied" (ongoing) or "Vacant" (yet to start)
+        //         const now = new Date();
+        //         const currentTime = now.getHours() + ":" + now.getMinutes();
+        //         const status = (currentTime >= cls.time && currentTime < cls.end) ? 'Occupied' : 'Vacant';
+
+        //         return `<tr>
+        //     <td>${cls.time} - ${cls.end}</td>
+        //     <td>${cls.subject}</td>
+        //     <td>${cls.room}</td>
+        //     <td><span class="status-indicator status-${status.toLowerCase()}">${status}</span></td>
+        // </tr>`;
+        //     }).join('');
+        // }
+
+        // Call these functions
+        updateClassStatus();
+        populateTodayTable();
+
+        // Refresh the "Current & Next" check every 1 minute
+        setInterval(updateClassStatus, 60000);
+    </script>
+</body>
+
+</html>
