@@ -228,7 +228,7 @@
         async function fetchSystemData() {
             try {
                 // Replace with your actual C++ server address (e.g., http://localhost:18080/get-data)
-                const response = await fetch('http://localhost:18080/get-timetable');
+               const response = await fetch('/get-timetable');
                 const data = await response.json();
 
                 // Logic to update the table would go here
