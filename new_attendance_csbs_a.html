@@ -528,71 +528,46 @@
         </div>
 
     </div>
-
-    <script>
-
-        // ============================================================
-        // ⬇️  PASTE YOUR GOOGLE APPS SCRIPT URL BELOW (between the "")
-        // ============================================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1WBSSRezcQCKqdis1dN0DD26YNkVzumk9xioNCPAffNkBHJgN-K6CZvq8cEZ6KmtU/exec";
-        // ============================================================
-
-        function markDefault(status) {
-            const rows = document.querySelectorAll('table tr');
-            rows.forEach(row => {
-                const radios = row.querySelectorAll('input[type="radio"]');
-                if (radios.length >= 2) {
-                    if (status === 'A') {
-                        radios[1].checked = true;
-                    } else if (status === 'P') {
-                        radios[0].checked = true;
-                    }
-                }
-            });
-        }
-
-        async function submitAttendance() {
-
-            // Collect all radio button responses from the table
-            const records = {};
-            const rows = document.querySelectorAll('table tr');
-
-            rows.forEach(row => {
-                const enroll = row.cells?.[0]?.innerText.trim();
-                const radios = row.querySelectorAll('input[type="radio"]');
-                if (radios.length >= 2 && enroll?.startsWith('BT')) {
-                    if (radios[0].checked) records[enroll] = "P";
-                    else if (radios[1].checked) records[enroll] = "A";
-                    else records[enroll] = "-";
-                }
-            });
-
-            const date = new Date().toISOString().split('T')[0];
-            const teacher = sessionStorage.getItem('teacherName') || "Unknown";
-
-            // Send data to Google Sheets via Apps Script
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                        "Content-Type": "text/plain"
-                    },
-                    body: JSON.stringify({
-                        section: "CSBS-A",
-                        date: date,
-                        teacher: teacher,
-                        records: records,
-                        savedAt: new Date().toLocaleString("en-IN")
-                    })
-                });
-                alert("✅ Attendance saved to Google Sheets!");
-            } catch (err) {
-                alert("❌ Could not save. Check your Script URL.\n" + err.message);
+<script>
+    function markDefault(status) {
+        const rows = document.querySelectorAll('table tr');
+        rows.forEach(row => {
+            const radios = row.querySelectorAll('input[type="radio"]');
+            if (radios.length >= 2) {
+                if (status === 'A') radios[1].checked = true;
+                else if (status === 'P') radios[0].checked = true;
             }
-        }
+        });
+    }
 
-    </script>
+    async function submitAttendance() {
+        const records = {};
+        const rows = document.querySelectorAll('table tr');
+        rows.forEach(row => {
+            const enroll = row.cells?.[0]?.innerText.trim();
+            const radios = row.querySelectorAll('input[type="radio"]');
+            if (radios.length >= 2 && enroll?.startsWith('BT')) {
+                if (radios[0].checked) records[enroll] = "P";
+                else if (radios[1].checked) records[enroll] = "A";
+                else records[enroll] = "-";
+            }
+        });
+        const date = new Date().toISOString().split('T')[0];
+        const teacher = sessionStorage.getItem('teacherName') || "Unknown";
+        try {
+            const res = await fetch('/submit-attendance', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ section: "CSBS-A", date, teacher, records, savedAt: new Date().toLocaleString("en-IN") })
+            });
+            const result = await res.json();
+            if (result.success) alert("✅ Attendance saved to Google Sheets!");
+            else alert("❌ Could not save: " + result.message);
+        } catch (err) {
+            alert("❌ Could not save. " + err.message);
+        }
+    }
+</script>
 
 </body>
 
